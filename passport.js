@@ -8,33 +8,30 @@ const MONGO_URL = process.env.MONGO_URL
 const conn  = mongoose.createConnection(MONGO_URL, {useNewUrlParser: true, useUnifiedTopology: true})
 
 
-
 passport.serializeUser((user, done) => {
-    console.log("serializeUser")
-    done(null, user._id);
-  });
-  
-  passport.deserializeUser((id, done) => {
-    User.findById(id)
-      .then((user) => {
-        done(null, user); // attach user object to the request as req.user
-      })
-      .catch((e) => {
-        done(new Error("Failed to deserialize a user"));
-      });
-  });
-
-passport.use(new LocalStrategy(function verify(name, password, done) {
-conn.collection("users").findOne({name: name, password:password}, function(err,user){
-if(err){return done(err); }
-if(!user) {return done(null, false, {message: 'incorrect username or password.'})};
-if(user.name==name && user.email==email && user.password==password){
-    console.log(user)
-    return done(null, user);
-}
-
-
+  done(null, user._id);
 });
-}))
 
+passport.deserializeUser((id, done) => {
+  conn.collection('users').findOne(
+      {_id: new ObjectID(id)},
+      (err, user) => {
+        if(err){
+          console.log(err)
+        }
+        done(null, user);
+      }
+  );
+});
+
+
+passport.use(new LocalStrategy({ usernameField: 'email'},function verify(name, email, password, done) {
+conn.collection("users").findOne({ name: name, email: email, password:password   }, function (err, user) {
+  if (err) { return done(err); }
+  if (!user) { return done(null, false); }
+  if (!user.verifyPassword(password)) { return done(null, false); }
+  return done(null, user);
+});
+}
+));
 

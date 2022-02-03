@@ -8,13 +8,15 @@ const session = require('express-session');
 const MongoStore = require('connect-mongo');
 const cookieParser = require('cookie-parser')
 const passport = require("passport");
-
+const LocalStrategy = require('passport-local').Strategy;
+const router = require("express").Router();
 
 
 
 
 
 require('dotenv').config();
+require('./passport')
 
 
 
@@ -32,6 +34,7 @@ const app = express()
 const port =  PORT || 5000;
 
 const conn  = mongoose.createConnection(MONGO_URL, {useNewUrlParser: true, useUnifiedTopology: true})
+require('./passport')(passport)
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -42,24 +45,22 @@ app.use(cookieParser());
 
 
 
-app.use(session({ secret: process.env.COOKIE_KEY, resave: true,  saveUninitialized: false, store: conn,cookie: {httpOnly: true, maxAge: 1000 * 60 * 60 * 24 * 90 },}));
+app.use(session({ secret: process.env.COOKIE_KEY, resave: true,  saveUninitialized: false, store: conn,cookie: {httpOnly: false, maxAge: 1000 * 60 * 60 * 24 * 90 },}));
 
 
 // You need this so when you send a request from frontend with a different url like https://tranminhtri.com it won't throw CORS errors
 
 
 
-
-
-app.use('./passport', passport.initialize());
+app.use(passport.initialize());
+// deserialize cookie from the browser
 app.use(passport.session());
+passport.use(new LocalStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
 
 
 app.use(cors({origin: "http://localhost:3000",methods: "GET,HEAD,PUT,PATCH,POST,DELETE",credentials: true, }));
-
-
-
- 
 
 
 
@@ -82,6 +83,7 @@ app.get("/", (req, res) => {
 app.post('/api/login',
 passport.authenticate("local", {failureRedirect: '/'}),
  (req,res)=>{
+   
 
  
         
@@ -111,6 +113,7 @@ app.post('/api/signup', (req,res)=>{
         }
     })
 })
+
 
 
 

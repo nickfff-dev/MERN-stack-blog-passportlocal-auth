@@ -47,12 +47,14 @@ class Signin extends React.Component {
 
         }
         
-        axios.post('/api/login', data)
-        .then((response, error)=>{
-            if (response.status(200)=== "Login Successful") {
+        axios.post('http://localhost:5000/api/login', data)
+        .then((res, error)=>{
+            if (res.status === 200) {
+                console.log(res.data)
+                
                 _this.changeLoggedIn()
                 alert("Signin successfully")
-                window.location = '/'
+               
                 
                 
                 
