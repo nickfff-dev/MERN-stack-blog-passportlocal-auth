@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { AiOutlineMinus, AiOutlinePlus } from 'react-icons/ai'
 import Questions from './Questions';
 

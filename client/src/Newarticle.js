@@ -26,7 +26,7 @@ class Newarticle extends React.Component{
                     {/* title is read from state and displayed here */}
                 </div>
                 <div className='square text-center container'>
-                    <div><img className='img-fluid' src={this.state.src} alt="abt image"/>
+                    <div><img className='img-fluid' src={this.state.src} alt="article crypto"/>
                     {/* image link is read from state and display here */}
                     </div>
                     {/* read the body from state body and loup through all parapgraphs in the body array and display them here */}

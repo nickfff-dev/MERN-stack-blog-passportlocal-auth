@@ -1,5 +1,5 @@
 import React from "react";
-import {BrowserRouter as Router,  Link} from "react-router-dom";
+import {Link} from "react-router-dom";
 import axios from 'axios';
 
 
@@ -130,20 +130,20 @@ render(){
                     </div>
                  
                     <ul id="links" className="list-group" onClick={this.closeSideDrawer}>
-                        <Link to='/faqs' id="link-structure" 
+                    <Link to='/faqs' id="link-structure" 
                             className="list-group-item list-group-item-action border-0 rounded-0">Start</Link>
-                        <a id="link-css" 
-                            className="list-group-item list-group-item-action border-0 rounded-0">News</a>
-                        <a id="link-javascript" 
-                            className="list-group-item list-group-item-action border-0 rounded-0">.Net</a>
-                        <a id="link-customization" 
-                            className="list-group-item list-group-item-action border-0 rounded-0">Demo Page</a>
-                        <a id="link-customization" 
-                            className="list-group-item list-group-item-action border-0 rounded-0">Demo Page2</a>
-                        <a id="link-customization" 
-                            className="list-group-item list-group-item-action border-0 rounded-0">Demo Page3</a>
-                        <a id="link-customization" 
-                            className="list-group-item list-group-item-action border-0 rounded-0 active">Close Sidebar</a>
+                        <Link to='/faqs' id="link-css" 
+                            className="list-group-item list-group-item-action border-0 rounded-0">News</Link>
+                       <Link to='/faqs' id="link-javascript" 
+                            className="list-group-item list-group-item-action border-0 rounded-0">.Net</Link>
+                        <Link to='/faqs' id="link-customization" 
+                            className="list-group-item list-group-item-action border-0 rounded-0">Demo Page</Link>
+                      <Link to='/faqs' id="link-customization" 
+                            className="list-group-item list-group-item-action border-0 rounded-0">Demo Page2</Link>
+                      <Link to='/faqs' id="link-customization" 
+                            className="list-group-item list-group-item-action border-0 rounded-0">Demo Page3</Link>
+                        <Link to='/faqs' id="link-customization" 
+                            className="list-group-item list-group-item-action border-0 rounded-0 active">Close Sidebar</Link>
 
 
                     </ul>

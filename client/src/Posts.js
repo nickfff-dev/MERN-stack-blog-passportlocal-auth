@@ -1,5 +1,5 @@
 import React from 'react';
-import {BrowserRouter as Router, Route, Routes, Link} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 
 
 
@@ -52,7 +52,7 @@ class Posts extends React.Component {
         <div className="blog-card__info">
           <h5>{this.state.title}</h5>
           <p>
-            <a href="#" className="icon-link mr-3"><i className="fa fa-pencil-square-o"></i> {this.state.author}</a>
+            <a href="/" className="icon-link mr-3"><i className="fa fa-pencil-square-o"></i> {this.state.author}</a>
           </p>
           <p>{this.state.body.paragraphs[0]}</p>
          <Link  to={this.kuja(this.state.title)} > <div  className="rmore btn--with-icon"><i className="btn-icon fa fa-long-arrow-right"></i>READ MORE</div></Link>
