@@ -1,37 +1,48 @@
 require('dotenv').config();
 const User = require("./models/user");
-const mongoose = require('mongoose');
+
 const LocalStrategy = require('passport-local').Strategy
-const passport = require("passport");
 
-const MONGO_URL = process.env.MONGO_URL
-const conn  = mongoose.createConnection(MONGO_URL, {useNewUrlParser: true, useUnifiedTopology: true})
+const bcrypt = require('bcrypt');
 
 
-passport.serializeUser((user, done) => {
-  done(null, user._id);
-});
-
-passport.deserializeUser((id, done) => {
-  conn.collection('users').findOne(
-      {_id: new ObjectID(id)},
-      (err, user) => {
-        if(err){
-          console.log(err)
-        }
-        done(null, user);
+module.exports = function(passport) {
+passport.use(new LocalStrategy((userName, password, done) =>{
+  console.log(userName, password)
+  User.findOne({userName: userName}, (err, user) => {
+    if(err){throw err}
+    if(!user){return done(null, false)}
+    bcrypt.compare(password, user.password, (err, isMatch) => {
+      if (err){throw err}
+      if(isMatch){
+        return done(null, user)
+      }else{
+        return done(null, false)
       }
-  );
-});
+    })
+
+  })
 
 
-passport.use(new LocalStrategy({ usernameField: 'email'},function verify(name, email, password, done) {
-conn.collection("users").findOne({ name: name, email: email, password:password   }, function (err, user) {
-  if (err) { return done(err); }
-  if (!user) { return done(null, false); }
-  if (!user.verifyPassword(password)) { return done(null, false); }
-  return done(null, user);
-});
+})
+
+)
+
+passport.serializeUser((user, cb) => {
+  cb(null, user.id)
+
+})
+
+passport.deserializeUser((id, cb) => {
+  User.findOne({_id: id}, (err, user) => {
+   
+    cb(err, user)
+  })
+})
+
+
+
+
+
 }
-));
 

@@ -10,8 +10,8 @@ class Signin extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-        name: '',
-      email: '',
+        userName: '',
+    //   email: '',
       password: '',
       loggedin: false,
         user: null
@@ -20,14 +20,14 @@ class Signin extends React.Component {
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.usernameChange = this.usernameChange.bind(this);
-    this.emailChange = this.emailChange.bind(this);
+    // this.emailChange = this.emailChange.bind(this);
     this.passwordChange = this.passwordChange.bind(this);
     this.resetForm = this.resetForm.bind(this);
     this.changeLoggedIn = this.changeLoggedIn.bind(this);
 }   
    changeLoggedIn(){
          this.setState({
-              loggedin: !this.state.loggedin
+              loggedin: true
          })
 
          console.log(this.state.loggedin)
@@ -41,28 +41,26 @@ class Signin extends React.Component {
         
         
         const data ={
-            name: this.state.name,
-            email: this.state.email,
+            userName: this.state.userName,
             password: this.state.password
 
         }
         
-        axios.post('http://localhost:5000/api/login', data)
+        axios.post('/login', data)
         .then((res, error)=>{
-            if (res.status === 200) {
-                console.log(res.data)
-                
+            if (res.data === "Signin successfull") {
                 _this.changeLoggedIn()
-                alert("Signin successfully")
-               
-                
-                
-                
-            } else {
-                alert("Signin failed")
-                
-
-            }}).catch((err)=>{
+                alert("Signin successfull")
+               } else if(res.data === "No User Exists") {
+                alert("user doesnt exist please signup")
+            }
+            else{
+                console.log(res.data)
+            }
+        
+        
+        
+        }).catch((err)=>{
             console.log(err)
         }).catch(function (error){
             console.log(error)
@@ -74,15 +72,15 @@ class Signin extends React.Component {
 
     usernameChange(event){
         this.setState({
-            name: event.target.value
+            userName: event.target.value
         })
     }
 
-    emailChange(event){
-        this.setState({
-            email: event.target.value
-        })
-    }
+    // emailChange(event){
+    //     this.setState({
+    //         email: event.target.value
+    //     })
+    // }
 
     passwordChange(event){
         this.setState({
@@ -92,8 +90,8 @@ class Signin extends React.Component {
 
     resetForm(){
         return this.setState({
-            name: '',
-            email: '',
+            userName: '',
+           
             password: ''
         })
     }
@@ -109,13 +107,13 @@ render(){
 
         <div className="form-group">
             <label>user name</label>
-            <input type="text" name="name" className="form-control" placeholder="Enter username" onChange={this.usernameChange} value={this.state.name} />
+            <input type="text" name="userName" className="form-control" placeholder="Enter username" onChange={this.usernameChange} value={this.state.userName} />
         </div>
-
+{/* 
         <div className="form-group">
             <label>Email address</label>
             <input type="email" name="email" className="form-control" placeholder="Enter email" onChange={this.emailChange} value={this.state.email} />
-        </div>
+        </div> */}
 
         <div className="form-group">
             <label>Password</label>

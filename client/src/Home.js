@@ -22,27 +22,16 @@ class Home extends React.Component{
 
 
 
-    componentDidMount(){
-   axios.get("http://localhost:5000/", {  
-   credentials: "include", // Fetch does not send cookies. So we need this line
-   headers: {
-     Accept: "application/json",
-     "Content-Type": "application/json",
-     "Access-Control-Allow-Credentials": true,
-      "Access-Control-Allow-Origin": "http://localhost:3000",
-      "access-control-allow-headers": "*",
-      "access-control-allow-methods": "POST, GET, OPTIONS, PUT, DELETE",
-
-   },}).then((response) => {
-    if (response.status === 200) console.log(response);
+   componentDidMount(){
+   axios({
+     method: 'get',
+     withCredentials: true,
+     url:"http://localhost:5000/user"
   })
-  .catch((error) => {
-    console.log(error);
-  });
-
-
-
-
+  .then(res => {
+    console.log(res.data);
+    this.setState({user: res.data});
+  })
     }
     render(){
         return(

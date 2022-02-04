@@ -10,15 +10,15 @@ class Signup extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: '',
+      userName: '',
       email: '',
       password: '',
       password2: '',
-      newUser: false
+      newUser: true
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.usernameChange = this.usernameChange.bind(this);
-    this.emailChange = this.emailChange.bind(this);
+   
     this.passwordChange = this.passwordChange.bind(this);
     this.password2Change = this.password2Change.bind(this);
     this.resetForm = this.resetForm.bind(this);
@@ -26,7 +26,7 @@ class Signup extends React.Component {
  
  changenewUser(){
    this.setState({
-      newUser: true
+      newUser: false
    })
  }
 
@@ -34,8 +34,8 @@ class Signup extends React.Component {
     const _this = this
     event.preventDefault();
     const data = {
-      name: this.state.name,
-      email: this.state.email,
+      userName: this.state.userName,
+     
       password: this.state.password,
       password2: this.state.password2
     };
@@ -43,9 +43,10 @@ class Signup extends React.Component {
       alert("password not match");
       this.resetForm()
     } else {
-    axios.post('/api/signup', data)
+    axios.post('/signup', data)
       .then((res) => {
         if (res.data === "Signup successfull") {
+          console.log(res.data)
           alert("Signup successfull")
          
 
@@ -68,18 +69,13 @@ class Signup extends React.Component {
 
   usernameChange(event) {
       this.setState({
-            name: event.target.value
+        userName: event.target.value
       }
         )
 
   }
 
-    emailChange(event) {
-        this.setState({
-            email: event.target.value
-        }
-            )
-    }
+   
 
     passwordChange(event) {
         this.setState({
@@ -92,8 +88,7 @@ class Signup extends React.Component {
 }
 resetForm(){
   this.setState({
-    name: '',
-    email: '',
+    userName: '',
     password: '',
     password2: ''
   })
@@ -101,20 +96,13 @@ resetForm(){
     render(){
         return(
             <div>
-            {this.state.newUser ? <Signin/> : <div className=" mt-5 container card">
+            {!this.state.newUser ? <Signin/> : <div className=" mt-5 container card">
               <form  id="signup-form" onSubmit={this.handleSubmit} method="POST">
             <h3>Sign Up</h3>
 
             <div className="form-group">
                 <label>user name</label>
-                <input type="text" className="form-control" placeholder="First name" value={this.state.name}  onChange={this.usernameChange}/>
-            </div>
-
-         
-
-            <div className="form-group">
-                <label>Email address</label>
-                <input type="email" className="form-control" placeholder="Enter email" value={this.state.email}  onChange={this.emailChange}/>
+                <input type="text" className="form-control" placeholder="First name" value={this.state.userName}  onChange={this.usernameChange}/>
             </div>
 
             <div className="form-group">

@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express')
 const nodemailer = require('nodemailer');
 const smtpTransport = require('nodemailer-smtp-transport');
@@ -10,16 +11,19 @@ const cookieParser = require('cookie-parser')
 const passport = require("passport");
 const LocalStrategy = require('passport-local').Strategy;
 const router = require("express").Router();
+const bcrypt = require('bcrypt');
+const User = require('./models/user');
 
 
 
 
 
-require('dotenv').config();
-require('./passport')
-
-
-
+const MONGO_URL = process.env.MONGO_URL
+mongoose.connect(MONGO_URL, {useNewUrlParser: true, useUnifiedTopology: true},
+  ()=>{
+    console.log("connected to mongo")
+  }
+  )
 
 
 
@@ -27,93 +31,104 @@ const PORT = process.env.PORT;
 const MY_GMAIL = process.env.MY_GMAIL;
 const MY_GMAIL_PASSWORD = process.env.MY_GMAIL_PASSWORD;
 
-const MONGO_URL = process.env.MONGO_URL
+
 
 
 const app = express()
 const port =  PORT || 5000;
 
-const conn  = mongoose.createConnection(MONGO_URL, {useNewUrlParser: true, useUnifiedTopology: true})
-require('./passport')(passport)
+
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(cookieParser());
 
-
-
-
-
-
-app.use(session({ secret: process.env.COOKIE_KEY, resave: true,  saveUninitialized: false, store: conn,cookie: {httpOnly: false, maxAge: 1000 * 60 * 60 * 24 * 90 },}));
-
-
-// You need this so when you send a request from frontend with a different url like https://tranminhtri.com it won't throw CORS errors
+app.use(cors({origin: "http://localhost:3000",methods: "GET,HEAD,PUT,PATCH,POST,DELETE",credentials: true, }));
+app.use(session({ secret: process.env.COOKIE_KEY, resave: true,  saveUninitialized: true, cookie: {httpOnly: false, maxAge: 1000 * 60 * 60 * 24 * 90 },}));
+app.use(cookieParser(process.env.COOKIE_KEY));
 
 
 
 app.use(passport.initialize());
-// deserialize cookie from the browser
 app.use(passport.session());
-passport.use(new LocalStrategy(User.authenticate()));
-passport.serializeUser(User.serializeUser());
-passport.deserializeUser(User.deserializeUser());
-
-
-app.use(cors({origin: "http://localhost:3000",methods: "GET,HEAD,PUT,PATCH,POST,DELETE",credentials: true, }));
+require('./passport')(passport);
 
 
 
 
 
-app.get("/", (req, res) => {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+app.post('/login', (req, res, next) => {
+
+  passport.authenticate('local', (err, user, info) => {
+    if (err){throw err;}
+    if(!user){res.send("No User Exists")}
+    else{
+          req.logIn(user, err =>{
+            if(err){throw err}
+            res.send('Signin successfull')
+            console.log(req.user)
+          })
+
+    }
+  })
   
+  (req, res, next);
   
-  res.status(200).send(req.user );
-});
+})
 
 
 
+app.post('/signup', (req,res)=>{
 
-
-
-
-
-
-app.post('/api/login',
-passport.authenticate("local", {failureRedirect: '/'}),
- (req,res)=>{
-   
-
- 
-        
-          res.status(200).send({message: 'Login successfull', user: req.user});
-         
-
- }
-)
-
-
-
-app.post('/api/signup', (req,res)=>{
-
-    const {name, email, password} = req.body;
+    const {userName, email, password} = req.body;
     // check if user already exists
-    conn.collection('users').findOne({name : name, email: email}, (err, user)=>{
-        if(err)  {res.status(404).send(err)}
+    User.findOne({userName : userName, password: password, email: email}, async (err, user)=>{
+        if(err)  {throw err}
         else if(user){
-            res.status(200).send("User already exists")
+            res.send("User already exists")
 
-        }else{
-            conn.collection('users').insertOne({name: name, email: email, password: password}, (err, result)=>{
-                if(err) {res.status(404).send(err)};
-                console.log(result)
-                res.status(200).send('Signup successfull')
-            })
+        }else if(!user){
+          const hashedPassword = await bcrypt.hash(password, 10);
+          const newUser = new User({
+            userName: userName,
+            email: email,
+            password: hashedPassword
+          });
+          await newUser.save();
+          res.send("Signup successfull")
         }
     })
 })
 
+
+app.get("/user", (req, res) => {
+  
+  res.send(req.user);
+});
 
 
 
