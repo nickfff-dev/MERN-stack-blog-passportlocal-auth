@@ -4,11 +4,8 @@ import React from "react";
 
 
 class Bodytxt extends React.Component {
-    constructor(props) {
-        super(props);
 
-
-    }
+    
 
     render() {
         return (

@@ -1,18 +1,15 @@
 import React from "react";
 import './Featured.css';
+import {Link} from "react-router-dom";
 
 class Featured extends React.Component{
-    constructor(props){
-        super(props)
-
-    }
 render(){
     return(
         <article className="postcard dark blue">
-            <a className="postcard__img_link" href="#">
-                <img className="postcard__img" src={'https://source.unsplash.com/1000x1000/?bitcoin,ethereum,cryptocurrency'} alt="Image Title" /></a>
+            <Link className="postcard__img_link" to="/postslist">
+                <img className="postcard__img" src={'https://source.unsplash.com/1000x1000/?bitcoin,ethereum,cryptocurrency'} alt="Title" /></Link>
             <div className="postcard__text">
-                <span className="postcard__title blue"><a href="#">Welcome to illeagle</a></span>
+                <span className="postcard__title blue"><Link to="/">Welcome to illeagle</Link></span>
                 <div className="postcard__subtitle small">
                     <span >
                     <i className="fa fa-user" aria-hidden="true">  </i> <span>

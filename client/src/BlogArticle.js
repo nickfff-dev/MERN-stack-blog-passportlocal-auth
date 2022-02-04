@@ -2,10 +2,11 @@ import React from "react";
 import Header from "./Header";
 import Footer from "./Footer";
 
-
+// this component is the layout for the one full blog article
 class BlogArticle extends React.Component{
     constructor(props){
         super(props)
+        // asign the article props to state
         this.state = {
             title: this.props.title,
             body: this.props.body,
@@ -21,8 +22,10 @@ class BlogArticle extends React.Component{
        return (
            <div className="container-fluid ">
                <Header />
+                {/* render the header in this standalone page */} 
                 <div id="intro" className="p-3 text-center">
     <h1 className="mb-0 h4 artti">{this.props.title}</h1>
+    {/* add the title from the state */}
 </div>
 <div className="mt-4 mb-5">
     <div className="container">
@@ -31,12 +34,15 @@ class BlogArticle extends React.Component{
             <div className="col-md-8  mb-4">
                 <section className="border-bottom mb-4">
                     <img src={this.props.src} className="img-fluid shadow-2-strong rounded-5 mb-4" alt="" />
+                    {/* add the image link from the state */}
 
                     <div className="row align-items-center mb-4">
                         <div className="col-lg-6 meta text-center text-lg-start mb-3 m-lg-0">
 
                             <span className="p-3"> Published <u className="p-3">{this.props.date}</u> by</span>
+                            {/* add the date from the state */}
                             <span >{this.props.author}</span>
+                            {/* add the author from the state */}
                         </div>
 
                         <div className="col-lg-6 text-center text-lg-end">
@@ -64,6 +70,8 @@ class BlogArticle extends React.Component{
 
 
                     ))}
+
+                    {/* loop through body and display each paragraph */}
 
                 </section>
                 <section className="text-center border-top border-bottom py-4 mb-4">

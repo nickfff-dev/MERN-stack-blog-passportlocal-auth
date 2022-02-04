@@ -1,0 +1,8 @@
+.square img {
+    float: left; 
+    margin: 5px;
+}
+.square p {
+    text-align: justify;
+    font-size: 25px;
+}
