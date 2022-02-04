@@ -67,7 +67,7 @@ render(){
 
                     <li>
                         
-                        <Link to="/postlist"><span className="border-left p-2 border-dark border-dark ">Start</span></Link> 
+                        <Link to="/"><span className="border-left p-2 border-dark border-dark ">Start</span></Link> 
                         
                         
                     </li> 
@@ -93,7 +93,7 @@ render(){
                         
                     </li>
 
-                    <li><Link to="/faqs" ><span className="border-left p-2 border-dark">Order</span></Link> 
+                    <li><Link to="/blog" ><span className="border-left p-2 border-dark">Blog</span></Link> 
                         
                     </li>
 

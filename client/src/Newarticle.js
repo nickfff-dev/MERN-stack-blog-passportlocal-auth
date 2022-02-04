@@ -1,6 +1,7 @@
 import React from 'react'
 import './newart.css'
-
+import Header from './Header'
+import Footer from './Footer'
 
 // this is the layout for each about article 
 
@@ -18,12 +19,13 @@ class Newarticle extends React.Component{
 
     render(){
         return(
-            <div className='container text-center'>
-                <div className="row">
+            <div className='container-fluid '>
+                <div className='row'> <Header/></div>
+                <div className="row text-center">
                     <h1>{this.state.title}</h1>
                     {/* title is read from state and displayed here */}
                 </div>
-                <div className='square'>
+                <div className='square text-center container'>
                     <div><img className='img-fluid' src={this.state.src} alt="abt image"/>
                     {/* image link is read from state and display here */}
                     </div>
@@ -36,7 +38,7 @@ class Newarticle extends React.Component{
 
 
                 </div>
-
+              <Footer/>
             </div>
         )
     }
