@@ -17,7 +17,7 @@ class Header extends React.Component{
 
         this.openSideDrawer = this.openSideDrawer.bind(this)
         this.closeSideDrawer = this.closeSideDrawer.bind(this)
-        
+        this.logoutHandler = this.logoutHandler.bind(this)
 
 }
 
@@ -36,17 +36,46 @@ closeSideDrawer() {
     document.getElementById("side-drawer-void").classList.remove("d-block");
 }
 componentDidMount(){
-    axios('/api/user',{
-      method: 'get',
-      withCredentials: true,
-      
-  
-   })
-   .then(res => {
-     console.log(res.data);
-     this.setState({user: res.data});
-   })
+   if(this.state.user === ""){
+       (async () =>{
+
+        try{
+            const user = await this.getUser();
+            this.setState({user: user})
+
+        } catch(e){
+            console.log(e)
+        }
+       })()
+   }
      }
+
+async getUser(){
+    const res = await axios('/api/user',{method: 'get', withCredentials: true});
+    return res.data;
+
+}
+
+
+logoutHandler(e){
+    var data = this.state.user
+   if (data === "") {
+       alert("You are not logged in")
+       e.target.classList.add("text-muted");
+
+   } else {
+
+    axios.post('/api/logout', data).then(res => {
+        if(res.data === "Thank you for visiting illeagle"){
+            alert("Sad to c u leave, see you soon")
+            this.setState({user: ""})
+            window.location.href = '/'
+        } else{
+            alert("Error try again")
+        
+        }
+    })}
+}
 
 
 
@@ -59,7 +88,7 @@ render(){
                 </button>
 
             </div>
-            <div className="col-sm-6">
+            <div className="col-sm-6 pl-4">
                 <ul className="topmenu ">
 
 
@@ -114,7 +143,7 @@ render(){
                     <div className="dropdown-content drp2"> 
                     {this.state.user !== "" ? <span> already loggedin</span> : <Link to="/signin"><span> Login</span></Link>}
                     {this.state.user !== "" ? <span> account active</span> : <Link to="/signup"><span> Create Account</span></Link>}
-                        <Link to="/faqs"><span> Log out</span></Link>
+                        <span className="text" type="button" onClick={this.logoutHandler}> Log out</span>
                     </div>
                 </div>
             </div> 

@@ -40,7 +40,7 @@ const port =  PORT || 5000;
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use(cors({origin: "http://localhost:3000",methods: "GET,HEAD,PUT,PATCH,POST,DELETE",credentials: true, }));
+app.use(cors({origin: "http://127.0.0.1:3000",methods: "GET,HEAD,PUT,PATCH,POST,DELETE",credentials: true, }));
 app.use(session({ secret: "cookienomare", resave: true,  saveUninitialized: true}));
 app.use(cookieParser("cookienomare"));
 
@@ -128,6 +128,12 @@ app.get("/api/user", (req, res, next) => {
   next()
 });
 
+app.post("/api/logout", (req,res)=>{
+
+  req.logout();
+  res.send("Thank you for visiting illeagle")
+
+})
 
 
 

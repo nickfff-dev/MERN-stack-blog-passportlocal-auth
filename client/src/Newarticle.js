@@ -14,6 +14,7 @@ class Newarticle extends React.Component{
             body: this.props.body,
             image: this.props.image,
             src: this.props.src
+            
         }
     }
 
