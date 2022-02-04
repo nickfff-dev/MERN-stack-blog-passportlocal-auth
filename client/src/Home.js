@@ -20,23 +20,14 @@ class Home extends React.Component{
      }
  }
 
+  
 
 
-   componentDidMount(){
-   axios({
-     method: 'get',
-     withCredentials: true,
-     url:"http://localhost:5000/user"
-  })
-  .then(res => {
-    console.log(res.data);
-    this.setState({user: res.data});
-  })
-    }
+   
     render(){
         return(
             <div className="container-fluid">
-                <Header/>
+                <Header />
 
                 <Featured/>
                 <Bodytxt/>

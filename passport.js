@@ -10,11 +10,11 @@ module.exports = function(passport) {
 passport.use(new LocalStrategy((userName, password, done) =>{
   console.log(userName, password)
   User.findOne({userName: userName}, (err, user) => {
-    if(err){throw err}
+    if(err)throw err
     if(!user){return done(null, false)}
-    bcrypt.compare(password, user.password, (err, isMatch) => {
-      if (err){throw err}
-      if(isMatch){
+    bcrypt.compare(password, user.password, (err, result) => {
+      if (err)throw err
+      if(result === true){
         return done(null, user)
       }else{
         return done(null, false)

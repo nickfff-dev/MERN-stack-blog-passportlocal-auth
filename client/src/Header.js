@@ -1,5 +1,6 @@
 import React from "react";
 import {BrowserRouter as Router,  Link} from "react-router-dom";
+import axios from 'axios';
 
 
 
@@ -10,12 +11,18 @@ import {BrowserRouter as Router,  Link} from "react-router-dom";
 class Header extends React.Component{
     constructor(props){
         super(props)
+        this.state = {
+            user: ""
+        }
 
         this.openSideDrawer = this.openSideDrawer.bind(this)
         this.closeSideDrawer = this.closeSideDrawer.bind(this)
-
+        
 
 }
+
+
+
 
 
 openSideDrawer() {
@@ -28,7 +35,18 @@ closeSideDrawer() {
     document.getElementById("side-drawer-void").classList.add("d-none");
     document.getElementById("side-drawer-void").classList.remove("d-block");
 }
-
+componentDidMount(){
+    axios('/api/user',{
+      method: 'get',
+      withCredentials: true,
+      
+  
+   })
+   .then(res => {
+     console.log(res.data);
+     this.setState({user: res.data});
+   })
+     }
 
 
 
@@ -60,10 +78,10 @@ render(){
 
                     <li>
                         <div className="dropdown ">  
-                            <span className="dropbtn border-left p-2 border-dark">Dropdown</span>
+                            <span className="dropbtn border-left p-2 border-dark">dropdown</span>
                             <div className="dropdown-content">
-                                <Link to="/signin">Login</Link>
-                                <Link to="/signup" >Create account</Link>
+                                <Link to="/faqs">faq</Link>
+                                <Link to="/faqs" >faq</Link>
                             </div>
                         </div>
                         
@@ -92,11 +110,11 @@ render(){
             </div>
             <div className="col-sm-3 drp"> 
                 <div className="dropdown"> 
-                    <button className="dropbtn " aria-labelledby="navbarDropdown">Dropdown</button> 
+                    <button className="dropbtn " aria-labelledby="navbarDropdown"> {this.state.user !== "" ? <span> {this.state.user.userName}</span> : <Link to="/signin"><span> Login</span></Link>}</button> 
                     <div className="dropdown-content drp2"> 
-                        <Link to="/faqs"><span> Brian</span></Link> 
-                        <Link to="/faqs"><span> Terry</span></Link>
-                        <Link to="/faqs"><span> O'Brian</span></Link>
+                    {this.state.user !== "" ? <span> already loggedin</span> : <Link to="/signin"><span> Login</span></Link>}
+                    {this.state.user !== "" ? <span> account active</span> : <Link to="/signup"><span> Create Account</span></Link>}
+                        <Link to="/faqs"><span> Log out</span></Link>
                     </div>
                 </div>
             </div> 

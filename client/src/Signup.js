@@ -10,7 +10,7 @@ class Signup extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      userName: '',
+      username: '',
       email: '',
       password: '',
       password2: '',
@@ -34,7 +34,7 @@ class Signup extends React.Component {
     const _this = this
     event.preventDefault();
     const data = {
-      userName: this.state.userName,
+      username: this.state.username,
      
       password: this.state.password,
       password2: this.state.password2
@@ -69,7 +69,7 @@ class Signup extends React.Component {
 
   usernameChange(event) {
       this.setState({
-        userName: event.target.value
+        username: event.target.value
       }
         )
 
@@ -88,7 +88,7 @@ class Signup extends React.Component {
 }
 resetForm(){
   this.setState({
-    userName: '',
+    username: '',
     password: '',
     password2: ''
   })
@@ -102,7 +102,7 @@ resetForm(){
 
             <div className="form-group">
                 <label>user name</label>
-                <input type="text" className="form-control" placeholder="First name" value={this.state.userName}  onChange={this.usernameChange}/>
+                <input type="text" className="form-control" placeholder="First name" value={this.state.username}  onChange={this.usernameChange}/>
             </div>
 
             <div className="form-group">

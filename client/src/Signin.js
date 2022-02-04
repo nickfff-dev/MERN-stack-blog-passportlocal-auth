@@ -10,8 +10,7 @@ class Signin extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-        userName: '',
-    //   email: '',
+        username: '',
       password: '',
       loggedin: false,
         user: null
@@ -41,18 +40,20 @@ class Signin extends React.Component {
         
         
         const data ={
-            userName: this.state.userName,
+            username: this.state.username,
             password: this.state.password
 
         }
         
         axios.post('/login', data)
-        .then((res, error)=>{
+        .then((res)=>{
             if (res.data === "Signin successfull") {
                 _this.changeLoggedIn()
                 alert("Signin successfull")
+                window.location.href = '/'
                } else if(res.data === "No User Exists") {
                 alert("user doesnt exist please signup")
+                window.location.href = '/signup'
             }
             else{
                 console.log(res.data)
@@ -65,14 +66,13 @@ class Signin extends React.Component {
         }).catch(function (error){
             console.log(error)
         })
-        this.resetForm()
 
         
     }
 
     usernameChange(event){
         this.setState({
-            userName: event.target.value
+            username: event.target.value
         })
     }
 
@@ -90,7 +90,7 @@ class Signin extends React.Component {
 
     resetForm(){
         return this.setState({
-            userName: '',
+            username: '',
            
             password: ''
         })
@@ -107,7 +107,7 @@ render(){
 
         <div className="form-group">
             <label>user name</label>
-            <input type="text" name="userName" className="form-control" placeholder="Enter username" onChange={this.usernameChange} value={this.state.userName} />
+            <input type="text" name="username" className="form-control" placeholder="Enter username" onChange={this.usernameChange} value={this.state.username} />
         </div>
 {/* 
         <div className="form-group">

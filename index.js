@@ -6,11 +6,9 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const session = require('express-session');
-const MongoStore = require('connect-mongo');
 const cookieParser = require('cookie-parser')
 const passport = require("passport");
 const LocalStrategy = require('passport-local').Strategy;
-const router = require("express").Router();
 const bcrypt = require('bcrypt');
 const User = require('./models/user');
 
@@ -43,8 +41,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(cors({origin: "http://localhost:3000",methods: "GET,HEAD,PUT,PATCH,POST,DELETE",credentials: true, }));
-app.use(session({ secret: process.env.COOKIE_KEY, resave: true,  saveUninitialized: true, cookie: {httpOnly: false, maxAge: 1000 * 60 * 60 * 24 * 90 },}));
-app.use(cookieParser(process.env.COOKIE_KEY));
+app.use(session({ secret: "cookienomare", resave: true,  saveUninitialized: true}));
+app.use(cookieParser("cookienomare"));
 
 
 
@@ -84,18 +82,18 @@ require('./passport')(passport);
 app.post('/login', (req, res, next) => {
 
   passport.authenticate('local', (err, user, info) => {
-    if (err){throw err;}
+    if (err)throw err;
     if(!user){res.send("No User Exists")}
-    else{
+    else if(user){
           req.logIn(user, err =>{
-            if(err){throw err}
+            if(err) throw err;
             res.send('Signin successfull')
             console.log(req.user)
           })
 
     }
   })
-  
+
   (req, res, next);
   
 })
@@ -104,10 +102,10 @@ app.post('/login', (req, res, next) => {
 
 app.post('/signup', (req,res)=>{
 
-    const {userName, email, password} = req.body;
+    const {userName,  password} = req.body;
     // check if user already exists
-    User.findOne({userName : userName, password: password, email: email}, async (err, user)=>{
-        if(err)  {throw err}
+    User.findOne({userName : userName}, async (err, user)=>{
+        if(err)  throw err
         else if(user){
             res.send("User already exists")
 
@@ -115,7 +113,6 @@ app.post('/signup', (req,res)=>{
           const hashedPassword = await bcrypt.hash(password, 10);
           const newUser = new User({
             userName: userName,
-            email: email,
             password: hashedPassword
           });
           await newUser.save();
@@ -125,9 +122,10 @@ app.post('/signup', (req,res)=>{
 })
 
 
-app.get("/user", (req, res) => {
+app.get("/api/user", (req, res, next) => {
   
   res.send(req.user);
+  next()
 });
 
 
