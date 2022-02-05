@@ -65,8 +65,8 @@ class BlogArticle extends React.Component{
                     </div>
                 </section>
                 <section>
-                    {this.state.body.paragraphs.map(para => (
-                    <p>{para}</p>
+                    {this.state.body.paragraphs.map((para, index) => (
+                    <p key={index}>{para}</p>
 
 
                     ))}

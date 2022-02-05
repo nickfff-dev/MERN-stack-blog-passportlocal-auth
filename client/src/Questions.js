@@ -27,7 +27,7 @@ class Questions extends React.Component {
         <article className='question noma accordion-item small-item'>
             <header>
             <h3 className='question-title small-ques' onClick={this.handleClick}>{this.state.title}</h3>
-            <button className='btn' onClick={this.handleClick}>
+            <button className='button' onClick={this.handleClick}>
                 {this.state.expanded ? <AiOutlineMinus /> : <AiOutlinePlus />}
             </button>
             </header>

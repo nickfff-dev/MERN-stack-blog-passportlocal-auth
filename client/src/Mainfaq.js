@@ -33,7 +33,7 @@ class Mainfaq extends React.Component {
                 <article className='question accordion-item '>
                 <header>
                 <h4 className='question-title'    onClick={this.handleExpand}>{this.state.maintitle}</h4>
-                <button   className='btn' onClick={this.handleExpand}>
+                <button   className='button' onClick={this.handleExpand}>
                     {this.state.expanded ? <AiOutlineMinus /> : <AiOutlinePlus />}
                 
             </button>

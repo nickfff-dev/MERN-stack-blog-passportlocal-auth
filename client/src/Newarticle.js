@@ -3,6 +3,8 @@ import './newart.css'
 import Header from './Header'
 import Footer from './Footer'
 
+
+
 // this is the layout for each about article 
 
 class Newarticle extends React.Component{
@@ -31,8 +33,8 @@ class Newarticle extends React.Component{
                     {/* image link is read from state and display here */}
                     </div>
                     {/* read the body from state body and loup through all parapgraphs in the body array and display them here */}
-                    {this.state.body.paragraphs.map(para => (
-                    <p>{para}</p>
+                    {this.state.body.paragraphs.map((para,index) => (
+                    <p key={index}>{para}</p>
 
 
                     ))}

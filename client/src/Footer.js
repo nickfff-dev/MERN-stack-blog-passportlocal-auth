@@ -3,10 +3,7 @@ import React from 'react'
 
 
 class Footer extends React.Component{
-    constructor(props){
-        super(props);
-
-    }
+   
     render(){
         return(
             <div className="row chini">
@@ -17,14 +14,14 @@ class Footer extends React.Component{
                         
                             <div className="row footertxt"> 
                 
-                                <a  href="https://www.w3schools.com/%22%3EVisit Evil nonsense W3Schools"
+                                <a  href="https://www.w3schools.com"
                                     id="fineprint">PRQ, Box 1092, S-172 22 Sundbyberg / info@prq.se </a>   
                 
-                                <a  href="https://www.w3schools.com/%22%3EVisit Evil nonsense W3Schools"
+                                <a  href="https://www.w3schools.com"
                                     id="fineprint">TinyHats, Cube 1092, S-172 22 Sweden / money@tinyhats.se</a>
                 
                                 
-                                <a id="back-to-top" href="#" className="btn btn-light btn-lg back-to-top" role="button"><i className="fas fa-chevron-up"></i></a> 
+                                <button id="back-to-top"  className="btn btn-light btn-lg back-to-top" ><i className="fas fa-chevron-up"></i></button> 
                             </div>
                 
              

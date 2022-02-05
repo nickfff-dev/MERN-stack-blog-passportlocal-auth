@@ -6,9 +6,9 @@ import Footer from './Footer';
 import Contact from './Contact';
 import Cardds from "./Cardds";
 import './cardsdata'
-import Mainfaqss from "./Mainfaqss";
+
 import Featured from "./Featured";
-import axios from "axios";
+
 
 
 

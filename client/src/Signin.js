@@ -1,10 +1,7 @@
 import React from 'react';
 import './auth.css'
-import { Fragment } from 'react';
 import axios from 'axios'
-import App from './App';
-import Home from './Home';
-import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
+
 
 class Signin extends React.Component {
   constructor(props) {
@@ -67,7 +64,7 @@ class Signin extends React.Component {
             console.log(error)
         })
 
-        
+        this.resetForm()
     }
 
     usernameChange(event){
@@ -129,7 +126,7 @@ render(){
 
         <button type="submit" className="btn btn-primary btn-block">Submit</button>
         <p className="forgot-password text-right">
-            Forgot <a href="#">password?</a>
+            Forgot <a href="/signup">password?</a>
         </p>
     </form>
      
